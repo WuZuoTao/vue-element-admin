@@ -184,6 +184,37 @@ export const asyncRoutes = [
     ]
   },
 
+  // *************************
+  {
+    path: '/renderless',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/renderless/index'),
+        name: 'renderless',
+        meta: { title: '表单',
+          icon: 'icon',
+          roles: ['editor']
+        }
+      }
+    ]
+  },
+  {
+    path: '/personaldata',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/personal-data/index'),
+        name: 'liebi',
+        meta: { title: '列表',
+          icon: 'icon',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
   /** when your routing map is too long, you can split it into small modules **/
   componentsRouter,
   chartsRouter,

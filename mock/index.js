@@ -5,12 +5,16 @@ const user = require('./user')
 const role = require('./role')
 const article = require('./article')
 const search = require('./remote-search')
+const personalData = require('./personal-data')
+const rendurless = require('./rendurless')
 
 const mocks = [
   ...user,
   ...role,
   ...article,
-  ...search
+  ...search,
+  ...personalData,
+  ...rendurless
 ]
 
 // for front mock
