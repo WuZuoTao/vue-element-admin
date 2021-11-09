@@ -6,12 +6,12 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+        <el-button v-if="checkPermission(['editor'])" label="Editor" class="right-menu-item hover-effect"> 消息通知</el-button>
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
         <el-tooltip content="Global Size" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
@@ -42,6 +42,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
   </div>
 </template>
 
@@ -53,6 +54,7 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import checkPermission from '@/utils/permission' // 权限判断函数
 
 export default {
   components: {
@@ -77,7 +79,8 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    }
+    },
+    checkPermission
   }
 }
 </script>

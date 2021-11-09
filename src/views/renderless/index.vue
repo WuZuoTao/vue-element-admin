@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <form class="container">
     <svitu-date #default=" {valuedate} " class="stide" :value="value" :rules="rules">
       <div class="left">活动名称</div>
       <el-input v-model="value" type="text" style="width: 50%" @blur="valuedate" />
@@ -19,7 +19,7 @@
       <div class="left">活动时间</div>
       <el-input
         v-model="TimeDate.time"
-        placeholder="请选择日期"
+        placeholder="请输入日期"
         prefix-icon="el-icon-date"
         style="width: 24%"
         @blur="valuedate"
@@ -27,7 +27,7 @@
       <span>-</span>
       <el-input
         v-model="TimeDate.date"
-        placeholder="请选择时间"
+        placeholder="请输入时间"
         prefix-icon="el-icon-search"
         style="width: 24%"
         @blur="valuedate"
@@ -55,7 +55,7 @@
       <el-radio v-model="radio" label="1">线上品牌商赞助</el-radio>
       <el-radio v-model="radio" label="2">线下场地免费</el-radio>
     </svitu-date>
-    <svitu-date #default=" {valuedate} " :value="ActivityContent" :rules="rules" class="stide">
+    <svitu-date #default=" {valuedate} " :value="ActivityContent" :rules="TextAll" class="stide">
       <div class="left">活动形式</div><el-input
         v-model="ActivityContent"
         type="textarea"
@@ -68,7 +68,7 @@
       <el-button type="primary" class="btn-left">立即创建</el-button>
       <el-button>取消</el-button>
     </svitu-date>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -94,7 +94,7 @@ export default {
         test: function(value) {
           return /\S+/.test(value)
         },
-        message: '输入框不能为空'
+        message: '请输入活动内容'
       }
     ],
     dates: [
@@ -103,6 +103,14 @@ export default {
           return /\d{4}-\d{2}-\d{2}\d{2}:\d{2}:\d{2}/.test(value)
         },
         message: '请正确输入格式xxxx-xx-xx xx:xx:xx'
+      }
+    ],
+    TextAll: [
+      {
+        test: function(value) {
+          return /\S+/.test(value)
+        },
+        message: '请输入活动形式'
       }
     ]
   }),
@@ -120,7 +128,6 @@ export default {
       }
     })
   }
-
 }
 </script>
 

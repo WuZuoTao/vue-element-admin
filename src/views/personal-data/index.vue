@@ -12,8 +12,7 @@
           </div>
           <div class="header-input">
             <span class="header-span">所属学科</span>
-            <select placeholder="请选择">
-              <option value="0">请选择</option>
+            <select v-model="select" placeholder="请选择">
               <option v-for="(item ,index) in formData.column" :key="index">{{ item }}</option>
             </select>
           </div>
@@ -42,7 +41,7 @@
           </div>
           <div class="header-input-button">
             <el-button type="primary" icon="el-icon-search" size="small" @click="filPerons">搜索</el-button>
-            <el-button type="primary" icon="el-icon-refresh-right" size="small" :disabled="!searchNike" @click="searchInput">重置</el-button>
+            <el-button type="primary" icon="el-icon-refresh-right" size="small" @click="searchInput">重置</el-button>
           </div>
         </div>
         <el-button-group>
@@ -127,13 +126,13 @@ export default {
         list: [],
         lists: []
       },
-      searchNike: ''
+      searchNike: '',
+      select: ''
     }
   },
   created() {
     getTestList().then(res => {
       const { code, data } = res
-      console.log(222)
       if (code === 20000) {
         const { items } = data
         this.formData.list = items
@@ -147,10 +146,10 @@ export default {
     // 过滤数组
     filPerons() {
       this.formData.lists = this.formData.list.filter((p) => {
-        return p.nick.indexOf(this.searchNike) !== -1
+        return p.nick.indexOf(this.searchNike) !== -1 && p.subject.indexOf(this.select) !== -1
       })
     },
-    // 搜索按钮
+    // 获取学科下拉数据
     searchSubject() {
       this.formData.list.forEach(value => {
         this.formData.column.push(value.subject)
@@ -160,6 +159,7 @@ export default {
     // 重置按钮
     searchInput() {
       this.searchNike = ''
+      this.select = ''
       this.filPerons()
     }
   }
