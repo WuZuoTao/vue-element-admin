@@ -2,7 +2,7 @@
   <form class="container">
     <svitu-date #default=" {valuedate} " class="stide" :value="value" :rules="rules">
       <div class="left">活动名称</div>
-      <el-input v-model="value" type="text" style="width: 50%" @blur="valuedate" />
+      <el-input v-model="value" type="text" style="width: 50%" placeholder="请输入活动内容" @blur="valuedate" />
     </svitu-date>
     <svitu-date class="stide">
       <div class="left">活动区域</div>

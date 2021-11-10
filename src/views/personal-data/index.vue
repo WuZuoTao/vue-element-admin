@@ -135,18 +135,22 @@ export default {
       const { code, data } = res
       if (code === 20000) {
         const { items } = data
-        this.formData.list = items
-        // 初始化一次过滤
-        this.filPerons()
-        this.searchSubject()
+        console.log(items)
+        return items
       }
+    }).then(res => {
+      this.formData.list = res
+      // 初始化一次过滤
+      this.filPerons()
+      this.searchSubject()
     })
   },
   methods: {
     // 过滤数组
     filPerons() {
       this.formData.lists = this.formData.list.filter((p) => {
-        return p.nick.indexOf(this.searchNike) !== -1 && p.subject.indexOf(this.select) !== -1
+        return p.nick.indexOf(this.searchNike) !== -1 &&
+        p.subject.indexOf(this.select) !== -1
       })
     },
     // 获取学科下拉数据

@@ -6,7 +6,8 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <el-button v-if="checkPermission(['editor'])" label="Editor" class="right-menu-item hover-effect"> 消息通知</el-button>
+        <el-button v-if="checkPermission(['editor'])" label="Editor" class="right-menu-item hover-effect">editor的权限按钮</el-button>
+        <el-button v-if="checkPermission(['admin'])" label="Editor" class="right-menu-item hover-effect">admin的权限按钮</el-button>
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
