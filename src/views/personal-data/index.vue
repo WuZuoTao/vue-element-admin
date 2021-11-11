@@ -13,7 +13,7 @@
           <div class="header-input">
             <span class="header-span">所属学科</span>
             <select v-model="select" placeholder="请选择">
-              <option v-for="(item ,index) in formData.column" :key="index">{{ item }}</option>
+              <option v-for="(item ,index) in formData.dropDown" :key="index">{{ item }}</option>
             </select>
           </div>
           <div class="header-input">
@@ -51,64 +51,12 @@
         </el-button-group>
       </div>
       <div slot="datay">
-        <div>
-          <el-table
-            border
-            :data="formData.lists"
-            align="center"
-            size="12"
-          >
-            <el-table-column
-              type="selection"
-              width="40"
-            />
-            <el-table-column
-              prop="nick"
-              label="昵称"
-              align="center"
-            />
-            <el-table-column
-              prop="phone"
-              label="手机号"
-              align="center"
-            />
-            <el-table-column
-              prop="name"
-              label="真实姓名"
-              align="center"
-            />
-            <el-table-column
-              prop="subject"
-              label="所属学科"
-              align="center"
-            />
-            <el-table-column
-              prop="job"
-              label="职位"
-              align="center"
-            />
-            <el-table-column
-              prop="year"
-              label="工作年限"
-              align="center"
-            />
-            <el-table-column
-              prop="updateTime"
-              label="录入时间"
-              align="center"
-              min-width="120"
-            />
-            <el-table-column
-              label="操作"
-              align="center"
-              min-width="100"
-            >
-              <el-link type="primary">查看</el-link>
-              <el-link type="primary">编辑</el-link>
-              <el-link type="primary">删除</el-link>
-            </el-table-column></el-table>
-          <div v-show="formData.lists.length" class="jl">显示第1到{{ formData.lists.length }}行,总共{{ formData.lists.length }}条记录</div>
-        </div>
+        <LbTable
+          :column="formData.column"
+          :data="formData.lists"
+          :border="true"
+          align="center"
+        />
       </div>
     </sea>
   </div>
@@ -117,14 +65,58 @@
 <script>
 import { getTestList } from '@/api/personal-data'
 import sea from './operation/index.vue'
+import LbTable from '@/components/lb-table/lb-table.vue'
 export default {
-  components: { sea },
+  components: { sea, LbTable },
   data() {
     return {
       formData: {
-        column: [],
+        column: [
+          {
+            prop: 'nick',
+            label: '昵称'
+          },
+          {
+            prop: 'phone',
+            label: '手机号'
+          },
+          {
+            prop: 'name',
+            label: '真实姓名'
+          },
+          {
+            prop: 'subject',
+            label: '所属学科'
+          },
+          {
+            prop: 'job',
+            label: '职位'
+          },
+          {
+            prop: 'year',
+            label: '工作年限'
+          },
+          {
+            prop: 'updateTime',
+            label: '上传日期'
+          },
+          {
+            prop: 'actions',
+            label: '操作',
+            render(_, scope) {
+              return (
+                <div>
+                  <a>查看</a>
+                  <a>编辑</a>
+                  <a>删除</a>
+                </div>
+              )
+            }
+          }
+        ],
         list: [],
-        lists: []
+        lists: [],
+        dropDown: []
       },
       searchNike: '',
       select: ''
@@ -135,7 +127,6 @@ export default {
       const { code, data } = res
       if (code === 20000) {
         const { items } = data
-        console.log(items)
         return items
       }
     }).then(res => {
@@ -156,9 +147,9 @@ export default {
     // 获取学科下拉数据
     searchSubject() {
       this.formData.list.forEach(value => {
-        this.formData.column.push(value.subject)
+        this.formData.dropDown.push(value.subject)
       })
-      this.formData.column = new Set(this.formData.column)
+      this.formData.dropDown = new Set(this.formData.dropDown)
     },
     // 重置按钮
     searchInput() {
@@ -222,10 +213,7 @@ export default {
 .el-link{
   padding-left: 5px;
 }
-.jl{
-  width: 100%;
-  line-height: 50px;
-  font-size: 12px;
-  border: 1px solid #dcdfe6;
+.cell a {
+  margin-left: 5px;
 }
 </style>
