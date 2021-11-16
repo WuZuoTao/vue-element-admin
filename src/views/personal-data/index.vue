@@ -4,7 +4,6 @@
       slot="search"
       :form-data="formData"
       @filPerons="filPerons"
-      @searchSubject="searchSubject"
     />
     <div slot="datay">
       <LbTable

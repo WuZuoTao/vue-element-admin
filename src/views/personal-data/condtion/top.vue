@@ -83,7 +83,7 @@ export default {
       this.formData.list = res
       // 初始化一次过滤
       this.$emit('filPerons', this.fuzzySearch)
-      this.$emit('searchSubject')
+      // this.searchSubject()
     })
   },
   methods: {
