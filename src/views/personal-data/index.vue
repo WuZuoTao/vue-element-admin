@@ -6,29 +6,32 @@
           <div class="header-input">
             <span class="header-span">昵称</span>
             <input
-              v-model="searchNike"
+              v-model="fuzzySearch.searchNike"
               placeholder="昵称"
             >
           </div>
           <div class="header-input">
             <span class="header-span">所属学科</span>
-            <select v-model="select" placeholder="请选择">
+            <select v-model="fuzzySearch.select" placeholder="请选择">
               <option v-for="(item ,index) in formData.dropDown" :key="index">{{ item }}</option>
             </select>
           </div>
           <div class="header-input">
             <span class="header-span">职位</span>
             <input
+              v-model="fuzzySearch.position"
               placeholder="职位"
             >
           </div>
           <div class="header-input">
             <span class="header-span">工作年限</span>
             <input
+              v-model="fuzzySearch.numstart"
               placeholder="起"
               style="width:60px"
             >
             <input
+              v-model="fuzzySearch.numend"
               placeholder="止"
               style="width:60px"
             >
@@ -36,6 +39,7 @@
           <div class="header-input">
             <span class="header-span">手机号</span>
             <input
+              v-model="fuzzySearch.phone"
               placeholder="手机号"
             >
           </div>
@@ -57,6 +61,7 @@
           :border="true"
           align="center"
         />
+        <div v-show="formData.lists.length" class="dady">显示第1到{{ formData.lists.length }}条数据，共{{ formData.list.length }}条数据</div>
       </div>
     </sea>
   </div>
@@ -64,7 +69,7 @@
 
 <script>
 import { getTestList } from '@/api/personal-data'
-import sea from './operation/index.vue'
+import sea from '@/components/Listlayout/Index.vue'
 import LbTable from '@/components/lb-table/lb-table.vue'
 export default {
   components: { sea, LbTable },
@@ -118,8 +123,14 @@ export default {
         lists: [],
         dropDown: []
       },
-      searchNike: '',
-      select: ''
+      fuzzySearch: {
+        searchNike: '', // 昵称
+        select: '', // 下拉
+        position: '', // 职位
+        numstart: '', // 工龄 起始
+        numend: '', // 工龄 结束
+        phone: '' // 手机号
+      }
     }
   },
   created() {
@@ -139,9 +150,16 @@ export default {
   methods: {
     // 过滤数组
     filPerons() {
+      // 如果没有工龄，则使用默认值
+      const numstart = this.fuzzySearch.numstart || 0
+      const numend = this.fuzzySearch.numend || 999
+      // 数组过滤
       this.formData.lists = this.formData.list.filter((p) => {
-        return p.nick.indexOf(this.searchNike) !== -1 &&
-        p.subject.indexOf(this.select) !== -1
+        return p.nick.indexOf(this.fuzzySearch.searchNike) !== -1 &&
+        p.subject.indexOf(this.fuzzySearch.select) !== -1 &&
+        p.job.indexOf(this.fuzzySearch.position) !== -1 &&
+        p.phone.toString().indexOf(this.fuzzySearch.phone) !== -1 &&
+        (numstart < p.year && p.year < numend)
       })
     },
     // 获取学科下拉数据
@@ -153,8 +171,12 @@ export default {
     },
     // 重置按钮
     searchInput() {
-      this.searchNike = ''
-      this.select = ''
+      this.fuzzySearch.searchNike = ''
+      this.fuzzySearch.select = ''
+      this.fuzzySearch.position = ''
+      this.fuzzySearch.numstart = ''
+      this.fuzzySearch.numend = ''
+      this.fuzzySearch.phone = ''
       this.filPerons()
     }
   }
@@ -215,5 +237,11 @@ export default {
 }
 .cell a {
   margin-left: 5px;
+}
+.dady{
+  font-size: 12px;
+  border: 1px solid #ccc;
+  height: 40px;
+  line-height: 40px;
 }
 </style>

@@ -192,7 +192,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/renderless/index'),
+        component: () => import('@/views/renderless/vitudate'),
         name: 'renderless',
         meta: { title: '表单',
           icon: 'icon',
